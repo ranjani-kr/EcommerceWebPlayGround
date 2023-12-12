@@ -19,4 +19,6 @@ public class HomePage {
         return new ArrayList<>();
     }
 
+    public void verifySearchResultMessage() {
+    }
 }

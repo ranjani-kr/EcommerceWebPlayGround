@@ -3,6 +3,7 @@ import org.automation.pages.LauncherPage;
 import org.junit.jupiter.api.Assertions;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.devtools.v85.domstorage.model.Item;
+import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import java.util.List;
@@ -35,10 +36,7 @@ public class SearchTest {
 
         //Act // 2. Click on Search Icon // 3. Type Search keyword
         HomePage homePage = new HomePage(driver);
-        homePage.search(searchItem);
-
-
-
+        homePage.search(searchItem);gi
 
         //4. verify search result
         List<Item> searchItems = homePage.getSearchItems();
@@ -48,6 +46,27 @@ public class SearchTest {
         Assertions.assertEquals(4,searchItems.size());
         Assertions.assertTrue(searchItems.stream().allMatch(item -> item.getName().contains(searchKey)));
 
+        }
+
+        @Test
+        public void verifySearchResultForUnavailableProduct(){
+
+                //Arrange
+                WebDriver webDriver = null;
+                String searchUnavailableProduct = "tennis ball";
+                String Url = "https://web-playground.ultralesson.com/";
+                LauncherPage launcherPage = new LauncherPage(driver);
+                launcherPage.navigateTo("https://web-playground.ultralesson.com/");
+
+                //Act
+                // 1. search Item
+                HomePage homePage = new HomePage(driver);
+                homePage.search(searchUnavailableProduct);
+                List<Item> searchItems = homePage.getSearchItems();
+
+                //Assert
+                Assert.assertTrue(searchItems.isEmpty());
+                homePage.verifySearchResultMessage();
         }
 
 }
